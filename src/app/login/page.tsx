@@ -4,12 +4,11 @@ import { useState } from "react";
 import { useUser } from "@/context/UserContext";
 import { useRouter } from "next/navigation";
 
-export default function RegisterPage() {
+export default function LoginPage() {
   const { setUser } = useUser();
   const router = useRouter();
 
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
     password: "",
   });
@@ -32,7 +31,6 @@ export default function RegisterPage() {
     e.preventDefault();
     const newErrors: string[] = [];
 
-    if (!formData.name) newErrors.push("El nombre es obligatorio.");
     if (!validateEmail(formData.email)) newErrors.push("El correo no es válido.");
     if (!validatePassword(formData.password))
       newErrors.push("La contraseña debe tener al menos 8 caracteres, una mayúscula y un carácter especial.");
@@ -40,7 +38,7 @@ export default function RegisterPage() {
     if (newErrors.length > 0) {
       setErrors(newErrors);
     } else {
-      setUser({ name: formData.name, email: formData.email });
+      setUser({ name: "Usuario", email: formData.email }); // Simulación de inicio de sesión
       router.push("/");
     }
   };
@@ -48,16 +46,8 @@ export default function RegisterPage() {
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 className="text-xl font-bold mb-4">Registro</h2>
+        <h2 className="text-xl font-bold mb-4">Iniciar sesión</h2>
         <form onSubmit={handleSubmit} className="flex flex-col">
-          <input
-            type="text"
-            name="name"
-            placeholder="Nombre"
-            value={formData.name}
-            onChange={handleChange}
-            className="border p-2 mb-2 rounded"
-          />
           <input
             type="email"
             name="email"
@@ -74,7 +64,7 @@ export default function RegisterPage() {
             onChange={handleChange}
             className="border p-2 mb-2 rounded"
           />
-          <button type="submit" className="bg-blue-500 text-white p-2 rounded">Registrarse</button>
+          <button type="submit" className="bg-blue-500 text-white p-2 rounded">Iniciar sesión</button>
         </form>
         {errors.length > 0 && (
           <div className="mt-4 text-red-500">
